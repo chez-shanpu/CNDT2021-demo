@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo2
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: demo2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: shanpu-nginx:latest
+        imagePullPolicy: Never
+        name: nginx
+        resources: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ubuntu
+  name: ubuntu
+  namespace: demo2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+      - image: shanpu-ubuntu:latest
+        imagePullPolicy: Never
+        name: ubuntu
+        resources: {}
+        command: [ "sh", "-c", "--" ]
+        args: [ "while true; do sleep 300; done;" ]
